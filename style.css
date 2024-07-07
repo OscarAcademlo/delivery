@@ -1,0 +1,10 @@
+.carousel-inner{
+    height: 400px;
+}
+
+.row{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background-color: gainsboro;
+}
