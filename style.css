@@ -1,10 +1,20 @@
+
+body {
+    min-height: 100vh;
+    min-width: 100vh;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    
+}
+
+
 .carousel-inner{
     height: 400px;
 }
 
 .row{
-    width: 100%;
+    
     display: flex;
-    justify-content: center;
-    background-color: gainsboro;
+    justify-content: space-around;
 }
