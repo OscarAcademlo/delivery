@@ -8,7 +8,7 @@
   <style>
     /* Estilos opcionales para mejorar la apariencia */
     body {
-        background-image: url("/img/fondo1.jpg");
+      background-image: url("/img/fondo1.jpg");
       font-family: Arial, sans-serif;
       margin: 20px;
       display: flex;
@@ -35,9 +35,37 @@
     .btn_color{
         background-color: lightblue;
     }
-    .form{
-        display: flex;
-        flex-direction: column;
+    .modal {
+      display: none; 
+      position: fixed; 
+      z-index: 1; 
+      left: 0;
+      top: 0;
+      width: 100%; 
+      height: 100%; 
+      overflow: auto; 
+      background-color: rgb(0,0,0); 
+      background-color: rgba(0,0,0,0.4); 
+      padding-top: 60px;
+    }
+    .modal-content {
+      background-color: #fefefe;
+      margin: 5% auto;
+      padding: 20px;
+      border: 1px solid #888;
+      width: 80%; 
+    }
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
     }
   </style>
 </head>
@@ -73,53 +101,47 @@
     <span>Empanadas Jamón y Queso - $2500</span>
     <input type="number" class="cantidad" id="cantidad5" value="0" min="0">
   </div>
-  <div class="form" id="formulario">
-    <h3>Completa tus datos antes de enviar el pedido:</h3>
-    <label for="nombre">Nombre</label>
-    <input type="text" id="nombre" required>
-  
-    <label for="apellido">Apellido:</label>
-    <input type="text" id="apellido" required>
-  
-    <label for="calle">Calle:</label>
-    <input type="text" id="calle" required>
-  
-    <label for="numero">Número:</label>
-    <input type="text" id="numero" required>
-  
-    <label for="entreCalles">Entre Calles:</label>
-    <input type="text" id="entreCalles" required>
-  
-    <label for="telefono">Teléfono:</label>
-    <input type="tel" id="telefono" required>
-  </div>
-  
 
-  <button onclick="enviarPedido()">Enviar Pedido por WhatsApp</button>
-  <button class="btn_color" onclick="generarLinkPago()">Pagar con Mercado Pago</button>
+  <button class="btn_color" onclick="abrirModal()">Pagar con Mercado Pago</button>
+
+  <!-- Botón "Comprar" que abre el modal -->
+  <button class="btn btn-primary mt-3" onclick="abrirModal()">
+    Comprar
+  </button>
+
+  <!-- Modal -->
+  <div id="modalPedido" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModal()">&times;</span>
+      <h5 class="modal-title">Confirmar Pedido y Datos Personales</h5>
+      <form id="formularioPedido">
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" class="form-control" required>
+      
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" class="form-control" required>
+      
+        <label for="calle">Calle:</label>
+        <input type="text" id="calle" class="form-control" required>
+      
+        <label for="numero">Número:</label>
+        <input type="text" id="numero" class="form-control" required>
+      
+        <label for="entreCalles">Entre Calles:</label>
+        <input type="text" id="entreCalles" class="form-control" required>
+
+        <!-- Campos ocultos para los datos de productos -->
+        <input type="hidden" id="detallePedido" name="detallePedido">
+        <input type="hidden" id="totalPedido" name="totalPedido">
+      </form>
+      <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
+      <button type="button" class="btn btn-primary" onclick="enviarPedidoWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </div>
 
   <script>
-
-function enviarPedido() {
-  var nombre = document.getElementById('nombre').value;
-  var apellido = document.getElementById('apellido').value;
-  var calle = document.getElementById('calle').value;
-  var numero = document.getElementById('numero').value;
-  var entreCalles = document.getElementById('entreCalles').value;
-  var telefono = document.getElementById('telefono').value;
-
-  // Construir el mensaje con los datos del formulario y los productos seleccionados
-  var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
-  mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n`;
-  // Agregar el detalle de los productos seleccionados aquí...
-
-  // Resto del código para construir el mensaje con los productos seleccionados
-
-  var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-  window.open(url);
-}
-
-    function enviarPedido() {
+    function abrirModal() {
+      // Obtener los datos de cantidad y precio de los productos
       var cantidad1 = parseInt(document.getElementById('cantidad1').value);
       var cantidad2 = parseInt(document.getElementById('cantidad2').value);
       var cantidad3 = parseInt(document.getElementById('cantidad3').value);
@@ -134,101 +156,68 @@ function enviarPedido() {
 
       var total = precio1 + precio2 + precio3 + precio4 + precio5;
 
-      var mensaje = `Pedido desde la tienda virtual:\n`;
-
+      // Construir detalle del pedido
+      var detallePedido = "";
       if (cantidad1 > 0) {
-        mensaje += `${cantidad1} x Pizza Muzzarella - $${precio1}\n`;
+        detallePedido += `${cantidad1} x Pizza Muzzarella - $${precio1}\n`;
       }
       if (cantidad2 > 0) {
-        mensaje += `${cantidad2} x Pizza Jamón y Queso - $${precio2}\n`;
+        detallePedido += `${cantidad2} x Pizza Jamón y Queso - $${precio2}\n`;
       }
       if (cantidad3 > 0) {
-        mensaje += `${cantidad3} x Pizza Jamón y Morrones - $${precio3}\n`;
+        detallePedido += `${cantidad3} x Pizza Jamón y Morrones - $${precio3}\n`;
       }
       if (cantidad4 > 0) {
-        mensaje += `${cantidad4} x Empanadas de Carne - $${precio4}\n`;
+        detallePedido += `${cantidad4} x Empanadas de Carne - $${precio4}\n`;
       }
       if (cantidad5 > 0) {
-        mensaje += `${cantidad5} x Empanadas Jamón y Queso - $${precio5}\n`;
+        detallePedido += `${cantidad5} x Empanadas Jamón y Queso - $${precio5}\n`;
       }
 
-      mensaje += `\nTotal: $${total}`;
+      // Mostrar el total del pedido en el modal
+      document.getElementById('totalPedido').value = total;
+      // Mostrar el detalle del pedido en el modal
+      document.getElementById('detallePedido').value = detallePedido;
 
+      // Abrir el modal
+      document.getElementById('modalPedido').style.display = "block";
+    }
+
+    function cerrarModal() {
+      document.getElementById('modalPedido').style.display = "none";
+    }
+
+    function enviarPedidoWhatsApp() {
+      var nombre = document.getElementById('nombre').value;
+      var apellido = document.getElementById('apellido').value;
+      var calle = document.getElementById('calle').value;
+      var numero = document.getElementById('numero').value;
+      var entreCalles = document.getElementById('entreCalles').value;
+      var detallePedido = document.getElementById('detallePedido').value;
+      var totalPedido = document.getElementById('totalPedido').value;
+
+      // Construir mensaje para enviar por WhatsApp
+      var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
+      mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
+      mensaje += `Detalle del pedido:\n${detallePedido}\n`;
+      mensaje += `Total: $${totalPedido}`;
+
+      // Número de WhatsApp para enviar el mensaje
       var telefono = '5492944651381';
       var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-
       window.open(url);
+
+      // Cerrar el modal después de enviar el mensaje
+      cerrarModal();
     }
 
-    function generarLinkPago() {
-      var cantidad1 = parseInt(document.getElementById('cantidad1').value);
-      var cantidad2 = parseInt(document.getElementById('cantidad2').value);
-      var cantidad3 = parseInt(document.getElementById('cantidad3').value);
-      var cantidad4 = parseInt(document.getElementById('cantidad4').value);
-      var cantidad5 = parseInt(document.getElementById('cantidad5').value);
-
-      var precio1 = cantidad1 * 10000;
-      var precio2 = cantidad2 * 12000;
-      var precio3 = cantidad3 * 12000;
-      var precio4 = cantidad4 * 2500;
-      var precio5 = cantidad5 * 2500;
-
-      var total = precio1 + precio2 + precio3 + precio4 + precio5;
-
-      // Construir URL del enlace de pago de Mercado Pago
-      var mercadoPagoUrl = 'https://www.mercadopago.com.ar/checkout/v1/redirect';
-      var preferenceData = {
-        external_reference: 'oscarnicolasstella',
-        items: [
-          {
-            title: 'Pizza Muzzarella',
-            unit_price: 10000,
-            quantity: cantidad1
-          },
-          {
-            title: 'Pizza Jamón y Queso',
-            unit_price: 12000,
-            quantity: cantidad2
-          },
-          {
-            title: 'Pizza Jamón y Morrones',
-            unit_price: 12000,
-            quantity: cantidad3
-          },
-          {
-            title: 'Empanadas de Carne',
-            unit_price: 2500,
-            quantity: cantidad4
-          },
-          {
-            title: 'Empanadas Jamón y Queso',
-            unit_price: 2500,
-            quantity: cantidad5
-          }
-        ]
-      };
-
-      // Realizar la solicitud POST a Mercado Pago para obtener la preferencia
-      fetch('https://api.mercadopago.com/checkout/preferences', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer YOUR_ACCESS_TOKEN' // Reemplaza YOUR_ACCESS_TOKEN con tu access token de Mercado Pago
-        },
-        body: JSON.stringify(preferenceData)
-      })
-      .then(response => response.json())
-      .then(data => {
-        var preferenceId = data.id;
-        var urlPago = `${mercadoPagoUrl}?pref_id=${preferenceId}`;
-        window.open(urlPago);
-      })
-      .catch(error => {
-        console.error('Error al generar enlace de pago:', error);
-        alert('Error al generar enlace de pago. Por favor, intenta nuevamente más tarde.');
-      });
+    // Cerrar el modal si el usuario hace clic fuera de él
+    window.onclick = function(event) {
+      var modal = document.getElementById('modalPedido');
+      if (event.target == modal) {
+        cerrarModal();
+      }
     }
-    
   </script>
 </body>
 </html>
