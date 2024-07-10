@@ -109,7 +109,7 @@
     Comprar
   </button>
 
-  <!-- Modal -->
+  <!-- Modal Pedido -->
   <div id="modalPedido" class="modal">
     <div class="modal-content">
       <span class="close" onclick="cerrarModal()">&times;</span>
@@ -136,6 +136,16 @@
       </form>
       <button type="button" class="btn btn-secondary" onclick="cerrarModal()">Cerrar</button>
       <button type="button" class="btn btn-primary" onclick="enviarPedidoWhatsApp()">Enviar por WhatsApp</button>
+    </div>
+  </div>
+
+  <!-- Modal Mercado Pago -->
+  <div id="modalPago" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="cerrarModalPago()">&times;</span>
+      <h5 class="modal-title">Total a Pagar</h5>
+      <p id="totalAPagar"></p>
+      <button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button>
     </div>
   </div>
 
@@ -207,15 +217,35 @@
       var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(url);
 
-      // Cerrar el modal después de enviar el mensaje
+      // Cerrar el modal de pedido y abrir el modal de pago después de enviar el mensaje
       cerrarModal();
+      mostrarModalPago(totalPedido);
     }
 
-    // Cerrar el modal si el usuario hace clic fuera de él
+    function mostrarModalPago(total) {
+      document.getElementById('totalAPagar').innerText = `Total a pagar: $${total}`;
+      document.getElementById('modalPago').style.display = "block";
+    }
+
+    function cerrarModalPago() {
+      document.getElementById('modalPago').style.display = "none";
+    }
+
+    function realizarPago() {
+      var totalPedido = document.getElementById('totalPedido').value;
+      var url = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${totalPedido}`; // Actualiza esta URL con el ID de preferencia de Mercado Pago
+      window.open(url);
+    }
+
+    // Cerrar los modales si el usuario hace clic fuera de ellos
     window.onclick = function(event) {
-      var modal = document.getElementById('modalPedido');
-      if (event.target == modal) {
+      var modalPedido = document.getElementById('modalPedido');
+      var modalPago = document.getElementById('modalPago');
+      if (event.target == modalPedido) {
         cerrarModal();
+      }
+      if (event.target == modalPago) {
+        cerrarModalPago();
       }
     }
   </script>
