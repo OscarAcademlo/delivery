@@ -1,0 +1,27 @@
+[
+    {
+      "nombre": "Pizza Muzzarella",
+      "imagen": "pizza_muzza.jpg",
+      "precio": 10000
+    },
+    {
+      "nombre": "Pizza jamón y queso",
+      "imagen": "pizza_jyq.jpg",
+      "precio": 12000
+    },
+    {
+      "nombre": "Pizza jamon y morrones",
+      "imagen": "pizza_jym.jpg",
+      "precio": 12000
+    },
+    {
+      "nombre": "Empanadas de carne",
+      "imagen": "emapnadas_carne.jpg",
+      "precio": 2500
+    },
+    {
+      "nombre": "Empanadas de jamon y queso",
+      "imagen": "empanadas_jyq.jpg",
+      "precio": 2500
+    }
+  ]
