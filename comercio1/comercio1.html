@@ -233,7 +233,7 @@
 
     function realizarPago() {
       var totalPedido = document.getElementById('totalPedido').value;
-      var url = `https://www.mercadopago.com.ar/checkout/v1/redirect?pref_id=${totalPedido}`; // Actualiza esta URL con el ID de preferencia de Mercado Pago
+      var url = `https://www.mercadopago.com.ar/settings/account/credentials/production?id=4572718003659482/redirect?pref_id=${totalPedido}`; // Actualiza esta URL con el ID de preferencia de Mercado Pago
       window.open(url);
     }
 
