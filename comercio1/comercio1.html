@@ -149,7 +149,7 @@
     <button id="copyButton" style="width: 120px;">Copiar Alias</button>
       <br> -->
 
-      <a href="link.mercadopago.com.ar/oscarsoft"><button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button></a>
+      <button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button>
     </div>
   </div>
 
@@ -172,29 +172,29 @@
 
      // copiar alias
 
-     document.getElementById("copyButton").addEventListener("click", function() {
-    // Obtener el texto del alias
-    var aliasText = document.getElementById("alias").innerText;
+//      document.getElementById("copyButton").addEventListener("click", function() {
+//     // Obtener el texto del alias
+//     var aliasText = document.getElementById("alias").innerText;
 
-    // Crear un campo de texto temporal para copiar el alias
-    var tempInput = document.createElement("textarea");
-    tempInput.value = aliasText;
-    document.body.appendChild(tempInput);
+//     // Crear un campo de texto temporal para copiar el alias
+//     var tempInput = document.createElement("textarea");
+//     tempInput.value = aliasText;
+//     document.body.appendChild(tempInput);
 
-    // Seleccionar el texto y copiarlo al portapapeles
-    tempInput.select();
-    document.execCommand("copy");
+//     // Seleccionar el texto y copiarlo al portapapeles
+//     tempInput.select();
+//     document.execCommand("copy");
 
-    // Eliminar el campo de texto temporal
-    document.body.removeChild(tempInput);
+//     // Eliminar el campo de texto temporal
+//     document.body.removeChild(tempInput);
 
-    // Cambiar el texto del botón
-    var button = document.getElementById("copyButton");
-    button.textContent = "Alias copiado";
+//     // Cambiar el texto del botón
+//     var button = document.getElementById("copyButton");
+//     button.textContent = "Alias copiado";
 
-    // Cambiar la clase del botón para aplicar estilos (opcional)
-    button.classList.add("copiado");
-});
+//     // Cambiar la clase del botón para aplicar estilos (opcional)
+//     button.classList.add("copiado");
+// });
 
       
 
@@ -243,6 +243,7 @@
       mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
       mensaje += `Detalle del pedido:\n${detallePedido}\n`;
       mensaje += `Total: $${totalPedido}`;
+      mensaje += `ir a pagar: https://biolibre.ar/oscarsoft`;
 
       // Número de WhatsApp para enviar el mensaje
       var telefono = '5492944651381';
