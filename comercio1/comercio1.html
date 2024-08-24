@@ -102,7 +102,7 @@
     <input type="number" class="cantidad" id="cantidad5" value="0" min="0">
   </div>
 
-  <button class="btn_color" onclick="abrirModal()">Pagar con Mercado Pago</button>
+  <!-- <button class="btn_color" onclick="abrirModal()">Pagar con Mercado Pago</button> -->
 
   <!-- Botón "Comprar" que abre el modal -->
   <button class="btn btn-primary mt-3" onclick="abrirModal()">
@@ -145,7 +145,11 @@
       <span class="close" onclick="cerrarModalPago()">&times;</span>
       <h5 class="modal-title">Total a Pagar</h5>
       <p id="totalAPagar"></p>
-      <button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button>
+      <span id="alias">oscar.stella.mp</span>
+    <button id="copyButton" style="width: 120px;">Copiar Alias</button>
+      <br>
+
+      <a href="https://mercadopago.com.ar"><button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button></a>
     </div>
   </div>
 
@@ -165,6 +169,34 @@
       var precio5 = cantidad5 * 2500;
 
       var total = precio1 + precio2 + precio3 + precio4 + precio5;
+
+     // copiar alias
+
+     document.getElementById("copyButton").addEventListener("click", function() {
+    // Obtener el texto del alias
+    var aliasText = document.getElementById("alias").innerText;
+
+    // Crear un campo de texto temporal para copiar el alias
+    var tempInput = document.createElement("textarea");
+    tempInput.value = aliasText;
+    document.body.appendChild(tempInput);
+
+    // Seleccionar el texto y copiarlo al portapapeles
+    tempInput.select();
+    document.execCommand("copy");
+
+    // Eliminar el campo de texto temporal
+    document.body.removeChild(tempInput);
+
+    // Cambiar el texto del botón
+    var button = document.getElementById("copyButton");
+    button.textContent = "Alias copiado";
+
+    // Cambiar la clase del botón para aplicar estilos (opcional)
+    button.classList.add("copiado");
+});
+
+      
 
       // Construir detalle del pedido
       var detallePedido = "";
@@ -233,6 +265,7 @@
 
     function realizarPago() {
       var totalPedido = document.getElementById('totalPedido').value;
+      
       var url = `https://www.mercadopago.com.ar/settings/account/credentials/production?id=4572718003659482/redirect?pref_id=${totalPedido}`; // Actualiza esta URL con el ID de preferencia de Mercado Pago
       window.open(url);
     }
