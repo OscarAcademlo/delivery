@@ -149,7 +149,7 @@
     <button id="copyButton" style="width: 120px;">Copiar Alias</button>
       <br> -->
 
-      <button type="button" class="btn btn-primary" onclick="realizarPago()">Ir a Mercado Pago</button>
+      <button onclick="generarLinkPago()">Pagar con Mercado Pago</button>
     </div>
   </div>
 
@@ -243,13 +243,12 @@
       mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
       mensaje += `Detalle del pedido:\n${detallePedido}\n`;
       mensaje += `Total: $${totalPedido}\n`;
-      mensaje += `link de pago: http://127.0.0.1:5500/comercio1/pago.html`;
-
+      mensaje += `link de pago: http://127.0.0.1:5500/comercio1/comercio1.html`;
+      
       // Número de WhatsApp para enviar el mensaje
       var telefono = '5492944651381';
       var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
       window.open(url);
-
       // Cerrar el modal de pedido y abrir el modal de pago después de enviar el mensaje
       cerrarModal();
       mostrarModalPago(totalPedido);
@@ -264,11 +263,55 @@
       document.getElementById('modalPago').style.display = "none";
     }
 
-    function realizarPago() {
-      var totalPedido = document.getElementById('totalPedido').value;
+    function generarLinkPago() {
       
-      var url = `https://www.mercadopago.com.ar/settings/account/credentials/production?id=4572718003659482/redirect?pref_id=${totalPedido}`; // Actualiza esta URL con el ID de preferencia de Mercado Pago
-      window.open(url);
+      let totalPedido =  // Este valor puede ser calculado dinámicamente
+      document.getElementById('totalPedido').innerText = totalPedido;
+  
+      // Función para generar el link de pago
+      function generarLinkPago() {
+          // Aquí utiliza tu Access Token para crear la preferencia
+          const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
+  
+          // Crear preferencia con los datos de pago
+          const preferenceData = {
+              items: [
+                  {
+                      title: 'Pedido en Comercio 1',
+                      unit_price: totalPedido,
+                      quantity: 1,
+                  }
+              ],
+              back_urls: {
+                  success: "https://www.tusitioweb.com/success",
+                  failure: "https://www.tusitioweb.com/failure",
+                  pending: "https://www.tusitioweb.com/pending"
+              },
+              auto_return: "approved",
+          };
+  
+          // Hacer la petición a la API de Mercado Pago para crear la preferencia
+          fetch('https://api.mercadopago.com/checkout/preferences', {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${accessToken}`,
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(preferenceData)
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.init_point) {
+                  // Redirigir al usuario al link de pago
+                  window.location.href = data.init_point;
+              } else {
+                  alert('Error al crear el link de pago');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
     }
 
     // Cerrar los modales si el usuario hace clic fuera de ellos
@@ -282,6 +325,58 @@
         cerrarModalPago();
       }
     }
+  </script>
+   
+  
+  <script>
+      // Ejemplo de un total de pedido dinámico
+      let totalPedido = 100 // Este valor puede ser calculado dinámicamente
+      document.getElementById('totalPedido').innerText = totalPedido;
+  
+      // Función para generar el link de pago
+      function generarLinkPago() {
+          // Aquí utiliza tu Access Token para crear la preferencia
+          const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
+  
+          // Crear preferencia con los datos de pago
+          const preferenceData = {
+              items: [
+                  {
+                      title: 'Pedido en Comercio 1',
+                      unit_price: totalPedido,
+                      quantity: 1,
+                  }
+              ],
+              back_urls: {
+                  success: "https://www.tusitioweb.com/success",
+                  failure: "https://www.tusitioweb.com/failure",
+                  pending: "https://www.tusitioweb.com/pending"
+              },
+              auto_return: "approved",
+          };
+  
+          // Hacer la petición a la API de Mercado Pago para crear la preferencia
+          fetch('https://api.mercadopago.com/checkout/preferences', {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${accessToken}`,
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(preferenceData)
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.init_point) {
+                  // Redirigir al usuario al link de pago
+                  window.location.href = data.init_point;
+              } else {
+                  alert('Error al crear el link de pago');
+              }
+          })
+          .catch(error => {
+              console.error('Error:', error);
+          });
+      }
   </script>
 </body>
 </html>
