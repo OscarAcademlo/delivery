@@ -16,24 +16,32 @@
     }
     .producto {
       margin-bottom: 20px;
+      display: flex;
+      align-items: center;
     }
     .producto img {
       max-width: 100px;
       margin-right: 10px;
       vertical-align: middle;
     }
-    .cantidad {
-      width: 50px;
+    .cantidad-controles {
+      display: flex;
+      align-items: center;
     }
-    button {
-      padding: 10px;
+    .cantidad-btn {
+      padding: 5px 10px;
+      margin: 0 5px;
       background-color: #4CAF50;
       color: white;
       border: none;
       cursor: pointer;
     }
-    .btn_color{
-        background-color: lightblue;
+    .cantidad {
+      width: 50px;
+      text-align: center;
+    }
+    .btn_color {
+      background-color: lightblue;
     }
     .modal {
       display: none; 
@@ -72,37 +80,55 @@
 <body>
   <h1 class="text-center">Comercio 1</h1>
 
-  <div class="producto align-items-center">
+  <div class="producto">
     <img src="/img/pizza.jpg" alt="Pizza Muzzarella">
     <span>Pizza Muzzarella - $10000</span>
-    <input type="number" class="cantidad" id="cantidad1" value="0" min="0">
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad1', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad1" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad1', 1)">+</button>
+    </div>
   </div>
 
   <div class="producto">
     <img src="/img/pizza-jamon-sobre-mesa_140725-5400.avif" alt="Pizza Jamón y Queso">
     <span>Pizza Jamón y Queso - $12000</span>
-    <input type="number" class="cantidad" id="cantidad2" value="0" min="0">
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad2', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad2" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad2', 1)">+</button>
+    </div>
   </div>
 
   <div class="producto">
     <img src="/img/pizza-de-jamon-y-morrones.jpg" alt="Pizza Jamón y Morrones">
     <span>Pizza Jamón y Morrones - $12000</span>
-    <input type="number" class="cantidad" id="cantidad3" value="0" min="0">
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad3', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad3" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad3', 1)">+</button>
+    </div>
   </div>
 
   <div class="producto">
     <img src="/img/empanada de carne.avif" alt="Empanadas de Carne">
     <span>Empanadas de Carne - $2500</span>
-    <input type="number" class="cantidad" id="cantidad4" value="0" min="0">
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad4', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad4" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad4', 1)">+</button>
+    </div>
   </div>
 
   <div class="producto">
     <img src="/img/empanada jamon y queso.jpg" alt="Empanadas Jamón y Queso">
     <span>Empanadas Jamón y Queso - $2500</span>
-    <input type="number" class="cantidad" id="cantidad5" value="0" min="0">
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad5', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad5" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad5', 1)">+</button>
+    </div>
   </div>
-
-  <!-- <button class="btn_color" onclick="abrirModal()">Pagar con Mercado Pago</button> -->
 
   <!-- Botón "Comprar" que abre el modal -->
   <button class="btn btn-primary mt-3" onclick="abrirModal()">
@@ -149,11 +175,30 @@
     <button id="copyButton" style="width: 120px;">Copiar Alias</button>
       <br> -->
 
+      
+       
+
+
       <button onclick="generarLinkPago()">Pagar con Mercado Pago</button>
     </div>
   </div>
 
   <script>
+
+     // Función para cambiar la cantidad de productos
+     function cambiarCantidad(elementId, cantidad) {
+          var elemento = document.getElementById(elementId);
+          var valorActual = parseInt(elemento.value);
+          var nuevoValor = valorActual + cantidad;
+    
+          // Evitar que la cantidad sea negativa
+          if (nuevoValor < 0) {
+            nuevoValor = 0;
+          }
+    
+          elemento.value = nuevoValor;
+        }
+
     function abrirModal() {
       // Obtener los datos de cantidad y precio de los productos
       var cantidad1 = parseInt(document.getElementById('cantidad1').value);
@@ -237,13 +282,12 @@
       var entreCalles = document.getElementById('entreCalles').value;
       var detallePedido = document.getElementById('detallePedido').value;
       var totalPedido = document.getElementById('totalPedido').value;
-      console.log(totalPedido)
       // Construir mensaje para enviar por WhatsApp
       var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
       mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
       mensaje += `Detalle del pedido:\n${detallePedido}\n`;
       mensaje += `Total: $${totalPedido}\n`;
-      mensaje += `link de pago: http://127.0.0.1:5500/comercio1/comercio1.html`;
+      mensaje += `Volve a la app y hace click en el boton de pago de mercado pago,`;
       
       // Número de WhatsApp para enviar el mensaje
       var telefono = '5492944651381';
