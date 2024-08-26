@@ -307,56 +307,7 @@
       document.getElementById('modalPago').style.display = "none";
     }
 
-    function generarLinkPago() {
-      
-      let totalPedido =  `${totalPedido}`// Este valor puede ser calculado dinámicamente
-      document.getElementById('totalPedido').innerText = totalPedido;
-  
-      // Función para generar el link de pago
-      function generarLinkPago() {
-          // Aquí utiliza tu Access Token para crear la preferencia
-          const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
-  
-          // Crear preferencia con los datos de pago
-          const preferenceData = {
-              items: [
-                  {
-                      title: 'Pedido en Comercio 1',
-                      unit_price: totalPedido,
-                      quantity: 1,
-                  }
-              ],
-              back_urls: {
-                  success: "https://www.tusitioweb.com/success",
-                  failure: "https://www.tusitioweb.com/failure",
-                  pending: "https://www.tusitioweb.com/pending"
-              },
-              auto_return: "approved",
-          };
-  
-          // Hacer la petición a la API de Mercado Pago para crear la preferencia
-          fetch('https://api.mercadopago.com/checkout/preferences', {
-              method: 'POST',
-              headers: {
-                  'Authorization': `Bearer ${accessToken}`,
-                  'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(preferenceData)
-          })
-          .then(response => response.json())
-          .then(data => {
-              if (data.init_point) {
-                  // Redirigir al usuario al link de pago
-                  window.location.href = data.init_point;
-              } else {
-                  alert('Error al crear el link de pago');
-              }
-          })
-          .catch(error => {
-              console.error('Error:', error);
-          });
-      }
-    }
+    
 
     // Cerrar los modales si el usuario hace clic fuera de ellos
     window.onclick = function(event) {
@@ -374,7 +325,7 @@
   
   <script>
       // Ejemplo de un total de pedido dinámico
-      let totalPedido =  100// Este valor puede ser calculado dinámicamente
+      let totalPedido = Math.floor(Math.random() * 100) + 1; // Este valor puede ser calculado dinámicamente
       document.getElementById('totalPedido').innerText = totalPedido;
   
       // Función para generar el link de pago
