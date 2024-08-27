@@ -282,13 +282,14 @@
       var entreCalles = document.getElementById('entreCalles').value;
       var detallePedido = document.getElementById('detallePedido').value;
       var totalPedido = document.getElementById('totalPedido').value;
+      generarLinkPago(totalPedido)
       // Construir mensaje para enviar por WhatsApp
       var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
       mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
       mensaje += `Detalle del pedido:\n${detallePedido}\n`;
       mensaje += `Total: $${totalPedido}\n`;
       mensaje += `Volve a la app y hace click en el boton de pago de mercado pago,`;
-      
+      console.log(totalPedido)
       // Número de WhatsApp para enviar el mensaje
       var telefono = '5492944651381';
       var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
@@ -296,14 +297,16 @@
       // Cerrar el modal de pedido y abrir el modal de pago después de enviar el mensaje
       cerrarModal();
       mostrarModalPago(totalPedido);
+
     }
+    
 
     function mostrarModalPago(total) {
       document.getElementById('totalAPagar').innerText = `Total a pagar: $${total}`;
       document.getElementById('modalPago').style.display = "block";
     }
 
-    function cerrarModalPago() {
+    function cerrarModalPago(totalPedido) {
       document.getElementById('modalPago').style.display = "none";
     }
 
@@ -320,16 +323,17 @@
         cerrarModalPago();
       }
     }
-  </script>
-   
   
-  <script>
+    
+    
+    
       // Ejemplo de un total de pedido dinámico
-      let totalPedido = Math.floor(Math.random() * 100) + 1; // Este valor puede ser calculado dinámicamente
-      document.getElementById('totalPedido').innerText = totalPedido;
+      let pagar = totalPedido// Este valor puede ser calculado dinámicamente
+    
   
       // Función para generar el link de pago
       function generarLinkPago() {
+        
           // Aquí utiliza tu Access Token para crear la preferencia
           const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
   
@@ -372,6 +376,8 @@
               console.error('Error:', error);
           });
       }
+    
   </script>
+  
 </body>
 </html>
