@@ -180,6 +180,7 @@
 
 
       <button onclick="generarLinkPago()">Pagar con Mercado Pago</button>
+
     </div>
   </div>
 
@@ -303,9 +304,12 @@
     
 
     function mostrarModalPago(total) {
-      document.getElementById('totalAPagar').innerText = `Total a pagar: $${total}`;
-      document.getElementById('modalPago').style.display = "block";
-    }
+    document.getElementById('totalAPagar').innerText = `Total a pagar: $${total}`;
+    document.getElementById('modalPago').style.display = "block";
+    // Asigna el total al campo oculto de totalPedido
+    document.getElementById('totalPedido').value = total;
+}
+
 
     function cerrarModalPago(totalPedido) {
       document.getElementById('modalPago').style.display = "none";
@@ -325,58 +329,62 @@
       }
     }
   
-    function resultado(totalPedido) {
-
-     document.getElementById('totalPedido').innerText = totalPedido;
-    }
-  
     
+  
+
      
-        
+         
+
+    
+    console.log(totalPedido)
+    document.getElementById('totalPedido').innerText = totalPedido;
         // Función para generar el link de pago
         function generarLinkPago() {
-            // Aquí utiliza tu Access Token para crear la preferencia
-            const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
+    // Obtén el total desde el input oculto
+    const totalPedido = parseInt(document.getElementById('totalPedido').value);
+    
+    const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
+    
+    const preferenceData = {
+        items: [
+            {
+                title: 'Pedido en Comercio 1',
+                unit_price: totalPedido, // Utiliza el total del pedido
+                quantity: 1,
+            }
+        ],
+        back_urls: {
+            success: "https://www.tusitioweb.com/success",
+            failure: "https://www.tusitioweb.com/failure",
+            pending: "https://www.tusitioweb.com/pending"
+        },
+        auto_return: "approved",
+    };
 
-            // Crear preferencia con los datos de pago
-            const preferenceData = {
-                items: [
-                    {
-                        title: 'Pedido en Comercio 1',
-                        unit_price: totalPedido,
-                        quantity: 1,
-                    }
-                ],
-                back_urls: {
-                    success: "https://www.tusitioweb.com/success",
-                    failure: "https://www.tusitioweb.com/failure",
-                    pending: "https://www.tusitioweb.com/pending"
-                },
-                auto_return: "approved",
-            };
-
-            // Hacer la petición a la API de Mercado Pago para crear la preferencia
-            fetch('https://api.mercadopago.com/checkout/preferences', {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${accessToken}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(preferenceData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.init_point) {
-                    // Redirigir al usuario al link de pago
-                    window.location.href = data.init_point;
-                } else {
-                    alert('Error al crear el link de pago');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+    // Hacer la petición a la API de Mercado Pago para crear la preferencia
+    fetch('https://api.mercadopago.com/checkout/preferences', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(preferenceData)
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.init_point) {
+            // Redirigir al usuario al link de pago
+            window.location.href = data.init_point;
+        } else {
+            alert('Error al crear el link de pago');
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+}
+
+        
     
   </script>
   
