@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title class="titulo">Comercio 1</title>
   <style>
-    /* Estilos opcionales para mejorar la apariencia */
     body {
       background-image: url("/img/fondo1.jpg");
       font-family: Arial, sans-serif;
@@ -80,6 +79,7 @@
 <body>
   <h1 class="text-center">Comercio 1</h1>
 
+  <!-- Productos -->
   <div class="producto">
     <img src="/img/pizza.jpg" alt="Pizza Muzzarella">
     <span>Pizza Muzzarella - $10000</span>
@@ -91,8 +91,8 @@
   </div>
 
   <div class="producto">
-    <img src="/img/pizza-jamon-sobre-mesa_140725-5400.avif" alt="Pizza Jamón y Queso">
-    <span>Pizza Jamón y Queso - $12000</span>
+    <img src="/img/pizza-de-jamon-y-morrones.jpg" alt="Pizza Especial">
+    <span>Pizza Especial - $15000</span>
     <div class="cantidad-controles">
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad2', -1)">-</button>
       <input type="text" class="cantidad" id="cantidad2" value="0" readonly>
@@ -101,8 +101,8 @@
   </div>
 
   <div class="producto">
-    <img src="/img/pizza-de-jamon-y-morrones.jpg" alt="Pizza Jamón y Morrones">
-    <span>Pizza Jamón y Morrones - $12000</span>
+    <img src="/img/hamburguesa.jpeg" alt="Hamburguesa Simple">
+    <span>Hamburguesa Simple - $8000</span>
     <div class="cantidad-controles">
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad3', -1)">-</button>
       <input type="text" class="cantidad" id="cantidad3" value="0" readonly>
@@ -111,8 +111,8 @@
   </div>
 
   <div class="producto">
-    <img src="/img/empanada de carne.avif" alt="Empanadas de Carne">
-    <span>Empanadas de Carne - $2500</span>
+    <img src="/img/hamburguesa comlpeta.jpg" alt="Hamburguesa Completa">
+    <span>Hamburguesa Completa - $12000</span>
     <div class="cantidad-controles">
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad4', -1)">-</button>
       <input type="text" class="cantidad" id="cantidad4" value="0" readonly>
@@ -121,8 +121,8 @@
   </div>
 
   <div class="producto">
-    <img src="/img/empanada jamon y queso.jpg" alt="Empanadas Jamón y Queso">
-    <span>Empanadas Jamón y Queso - $2500</span>
+    <img src="/img/empanada de carne.avif" alt="Empanada">
+    <span>Empanada - $2000</span>
     <div class="cantidad-controles">
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad5', -1)">-</button>
       <input type="text" class="cantidad" id="cantidad5" value="0" readonly>
@@ -131,19 +131,17 @@
   </div>
 
   <div class="producto">
-    <img src="/img/yo.JPG" alt="Empanadas Jamón y Queso">
-    <span>Donación fundacion Oscar - $100</span>
+    <img src="/img/coca_500.jpg" alt="Gaseosa 500ml">
+    <span>Gaseosa 500ml - $100</span>
     <div class="cantidad-controles">
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad6', -1)">-</button>
       <input type="text" class="cantidad" id="cantidad6" value="0" readonly>
       <button class="cantidad-btn" onclick="cambiarCantidad('cantidad6', 1)">+</button>
     </div>
   </div>
-
+  
   <!-- Botón "Comprar" que abre el modal -->
-  <button class="btn btn-primary mt-3" onclick="abrirModal()">
-    Comprar
-  </button>
+  <button class="btn btn-primary mt-3" onclick="abrirModal()">Comprar</button>
 
   <!-- Modal Pedido -->
   <div id="modalPedido" class="modal">
@@ -175,116 +173,42 @@
     </div>
   </div>
 
-  <!-- Modal Mercado Pago -->
-  <div id="modalPago" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="cerrarModalPago()">&times;</span>
-      <h5 class="modal-title">Total a Pagar</h5>
-      <p id="totalAPagar"></p>
-      <!-- <span id="alias">oscar.stella.mp</span>
-    <button id="copyButton" style="width: 120px;">Copiar Alias</button>
-      <br> -->
-
-      
-       
-
-
-      <button onclick="generarLinkPago()">Pagar con Mercado Pago</button>
-
-    </div>
-  </div>
-
   <script>
-
-     // Función para cambiar la cantidad de productos
-     function cambiarCantidad(elementId, cantidad) {
-          var elemento = document.getElementById(elementId);
-          var valorActual = parseInt(elemento.value);
-          var nuevoValor = valorActual + cantidad;
-    
-          // Evitar que la cantidad sea negativa
-          if (nuevoValor < 0) {
-            nuevoValor = 0;
-          }
-    
-          elemento.value = nuevoValor;
-        }
+    function cambiarCantidad(elementId, cantidad) {
+      var elemento = document.getElementById(elementId);
+      var valorActual = parseInt(elemento.value);
+      var nuevoValor = valorActual + cantidad;
+      if (nuevoValor < 0) nuevoValor = 0;
+      elemento.value = nuevoValor;
+    }
 
     function abrirModal() {
-      // Obtener los datos de cantidad y precio de los productos
       var cantidad1 = parseInt(document.getElementById('cantidad1').value);
       var cantidad2 = parseInt(document.getElementById('cantidad2').value);
       var cantidad3 = parseInt(document.getElementById('cantidad3').value);
       var cantidad4 = parseInt(document.getElementById('cantidad4').value);
       var cantidad5 = parseInt(document.getElementById('cantidad5').value);
       var cantidad6 = parseInt(document.getElementById('cantidad6').value);
-
-
-      var precio1 = cantidad1 * 10000;
-      var precio2 = cantidad2 * 12000;
-      var precio3 = cantidad3 * 12000;
-      var precio4 = cantidad4 * 2500;
-      var precio5 = cantidad5 * 2500;
-      var precio6 = cantidad6 * 100;
-
-
-      var total = precio1 + precio2 + precio3 + precio4 + precio5 + precio6;
-
-     // copiar alias
-
-//      document.getElementById("copyButton").addEventListener("click", function() {
-//     // Obtener el texto del alias
-//     var aliasText = document.getElementById("alias").innerText;
-
-//     // Crear un campo de texto temporal para copiar el alias
-//     var tempInput = document.createElement("textarea");
-//     tempInput.value = aliasText;
-//     document.body.appendChild(tempInput);
-
-//     // Seleccionar el texto y copiarlo al portapapeles
-//     tempInput.select();
-//     document.execCommand("copy");
-
-//     // Eliminar el campo de texto temporal
-//     document.body.removeChild(tempInput);
-
-//     // Cambiar el texto del botón
-//     var button = document.getElementById("copyButton");
-//     button.textContent = "Alias copiado";
-
-//     // Cambiar la clase del botón para aplicar estilos (opcional)
-//     button.classList.add("copiado");
-// });
-
       
-
-      // Construir detalle del pedido
+      var precio1 = cantidad1 * 10000;
+      var precio2 = cantidad2 * 15000;
+      var precio3 = cantidad3 * 8000;
+      var precio4 = cantidad4 * 12000;
+      var precio5 = cantidad5 * 2000;
+      var precio6 = cantidad6 * 3000;
+      
+      var total = precio1 + precio2 + precio3 + precio4 + precio5 + precio6;
       var detallePedido = "";
-      if (cantidad1 > 0) {
-        detallePedido += `${cantidad1} x Pizza Muzzarella - $${precio1}\n`;
-      }
-      if (cantidad2 > 0) {
-        detallePedido += `${cantidad2} x Pizza Jamón y Queso - $${precio2}\n`;
-      }
-      if (cantidad3 > 0) {
-        detallePedido += `${cantidad3} x Pizza Jamón y Morrones - $${precio3}\n`;
-      }
-      if (cantidad4 > 0) {
-        detallePedido += `${cantidad4} x Empanadas de Carne - $${precio4}\n`;
-      }
-      if (cantidad5 > 0) {
-        detallePedido += `${cantidad5} x Empanadas Jamón y Queso - $${precio5}\n`;
-      }
-      if (cantidad6 > 0) {
-        detallePedido += `${cantidad6} x Empanadas Jamón y Queso - $${precio6}\n`;
-      }
 
-      // Mostrar el total del pedido en el modal
+      if (cantidad1 > 0) detallePedido += `${cantidad1} x Pizza Muzzarella - $${precio1}\n`;
+      if (cantidad2 > 0) detallePedido += `${cantidad2} x Pizza Especial - $${precio2}\n`;
+      if (cantidad3 > 0) detallePedido += `${cantidad3} x Hamburguesa Simple - $${precio3}\n`;
+      if (cantidad4 > 0) detallePedido += `${cantidad4} x Hamburguesa Completa - $${precio4}\n`;
+      if (cantidad5 > 0) detallePedido += `${cantidad5} x Empanada - $${precio5}\n`;
+      if (cantidad6 > 0) detallePedido += `${cantidad6} x Gaseosa 500ml - $${precio6}\n`;
+
       document.getElementById('totalPedido').value = total;
-      // Mostrar el detalle del pedido en el modal
       document.getElementById('detallePedido').value = detallePedido;
-
-      // Abrir el modal
       document.getElementById('modalPedido').style.display = "block";
     }
 
@@ -292,7 +216,7 @@
       document.getElementById('modalPedido').style.display = "none";
     }
 
-    function enviarPedidoWhatsApp() {
+    async function enviarPedidoWhatsApp() {
       var nombre = document.getElementById('nombre').value;
       var apellido = document.getElementById('apellido').value;
       var calle = document.getElementById('calle').value;
@@ -300,109 +224,47 @@
       var entreCalles = document.getElementById('entreCalles').value;
       var detallePedido = document.getElementById('detallePedido').value;
       var totalPedido = document.getElementById('totalPedido').value;
-        
-        
-        // Construir mensaje para enviar por WhatsApp
-      var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
-      mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
-      mensaje += `Detalle del pedido:\n${detallePedido}\n`;
-      mensaje += `Total: $${totalPedido}\n`;
-      mensaje += `Volve a la app y hace click en el boton de pago de mercado pago,`;
-      // Número de WhatsApp para enviar el mensaje
-      var telefono = '5492944651381';
-      var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-      window.open(url);
-      // Cerrar el modal de pedido y abrir el modal de pago después de enviar el mensaje
+      
+      // Generar el link de pago de Mercado Pago
+      const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322';
+      const preferenceData = {
+          items: [
+              {
+                  title: 'Pedido en Comercio 1',
+                  unit_price: parseInt(totalPedido),
+                  quantity: 1
+              }
+          ]
+      };
+      
+      try {
+          const response = await fetch('https://api.mercadopago.com/checkout/preferences', {
+              method: 'POST',
+              headers: {
+                  'Authorization': `Bearer ${accessToken}`,
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(preferenceData)
+          });
+          const data = await response.json();
+          const linkPago = data.init_point;
+
+          var mensaje = `Pedido desde la tienda virtual - ${nombre} ${apellido}:\n`;
+          mensaje += `Dirección: ${calle} ${numero}, entre ${entreCalles}\n\n`;
+          mensaje += `Detalle del pedido:\n${detallePedido}\n`;
+          mensaje += `Total: $${totalPedido}\n`;
+          mensaje += `Pagar con Mercado Pago en este link: ${linkPago}\n`;
+
+          var telefono = '5492944651381';
+          var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
+          window.open(url);
+      } catch (error) {
+          console.error('Error al generar el link de pago:', error);
+          alert('Hubo un error al generar el link de pago. Inténtelo de nuevo más tarde.');
+      }
+
       cerrarModal();
-      mostrarModalPago(totalPedido);
-      resultado(totalPedido)
-
     }
-    
-
-    function mostrarModalPago(total) {
-    document.getElementById('totalAPagar').innerText = `Total a pagar: $${total}`;
-    document.getElementById('modalPago').style.display = "block";
-    // Asigna el total al campo oculto de totalPedido
-    document.getElementById('totalPedido').value = total;
-}
-
-
-    function cerrarModalPago(totalPedido) {
-      document.getElementById('modalPago').style.display = "none";
-    }
-
-    
-
-    // Cerrar los modales si el usuario hace clic fuera de ellos
-    window.onclick = function(event) {
-      var modalPedido = document.getElementById('modalPedido');
-      var modalPago = document.getElementById('modalPago');
-      if (event.target == modalPedido) {
-        cerrarModal();
-      }
-      if (event.target == modalPago) {
-        cerrarModalPago();
-      }
-    }
-  
-    
-  
-
-     
-         
-
-    
-    console.log(totalPedido)
-    document.getElementById('totalPedido').innerText = totalPedido;
-        // Función para generar el link de pago
-        function generarLinkPago() {
-    // Obtén el total desde el input oculto
-    const totalPedido = parseInt(document.getElementById('totalPedido').value);
-    
-    const accessToken = 'APP_USR-4572718003659482-071019-596809e82d44061a9884a9af69bc0e85-741894322'; // Reemplaza con tu Access Token
-    
-    const preferenceData = {
-        items: [
-            {
-                title: 'Pedido en Comercio 1',
-                unit_price: totalPedido, // Utiliza el total del pedido
-                quantity: 1,
-            }
-        ],
-        back_urls: {
-            success: "https://www.tusitioweb.com/success",
-            failure: "https://www.tusitioweb.com/failure",
-            pending: "https://www.tusitioweb.com/pending"
-        },
-        auto_return: "approved",
-    };
-
-    // Hacer la petición a la API de Mercado Pago para crear la preferencia
-    fetch('https://api.mercadopago.com/checkout/preferences', {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(preferenceData)
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.init_point) {
-            // Redirigir al usuario al link de pago
-            window.location.href = data.init_point;
-        } else {
-            alert('Error al crear el link de pago');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-}
-
-        
-    
   </script>
   
 </body>
