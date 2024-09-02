@@ -257,8 +257,8 @@
 
           var telefono = '5492944651381';
           var url = `https://wa.me/${telefono}?text=${encodeURIComponent(mensaje)}`;
-          window.open(url);
-      } catch (error) {
+          window.location.href = url;
+        } catch (error) {
           console.error('Error al generar el link de pago:', error);
           alert('Hubo un error al generar el link de pago. Inténtelo de nuevo más tarde.');
       }
