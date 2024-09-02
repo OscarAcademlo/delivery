@@ -217,7 +217,7 @@
       var cantidad3 = parseInt(document.getElementById('cantidad3').value);
       var cantidad4 = parseInt(document.getElementById('cantidad4').value);
       var cantidad5 = parseInt(document.getElementById('cantidad5').value);
-      var cantidad5 = parseInt(document.getElementById('cantidad6').value);
+      var cantidad6 = parseInt(document.getElementById('cantidad6').value);
 
 
       var precio1 = cantidad1 * 10000;
@@ -274,6 +274,9 @@
       }
       if (cantidad5 > 0) {
         detallePedido += `${cantidad5} x Empanadas Jamón y Queso - $${precio5}\n`;
+      }
+      if (cantidad6 > 0) {
+        detallePedido += `${cantidad6} x Empanadas Jamón y Queso - $${precio6}\n`;
       }
 
       // Mostrar el total del pedido en el modal
