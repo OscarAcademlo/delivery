@@ -130,6 +130,16 @@
     </div>
   </div>
 
+  <div class="producto">
+    <img src="/img/yo.JPG" alt="Empanadas Jamón y Queso">
+    <span>Donación fundacion Oscar - $100</span>
+    <div class="cantidad-controles">
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad6', -1)">-</button>
+      <input type="text" class="cantidad" id="cantidad6" value="0" readonly>
+      <button class="cantidad-btn" onclick="cambiarCantidad('cantidad6', 1)">+</button>
+    </div>
+  </div>
+
   <!-- Botón "Comprar" que abre el modal -->
   <button class="btn btn-primary mt-3" onclick="abrirModal()">
     Comprar
@@ -207,14 +217,18 @@
       var cantidad3 = parseInt(document.getElementById('cantidad3').value);
       var cantidad4 = parseInt(document.getElementById('cantidad4').value);
       var cantidad5 = parseInt(document.getElementById('cantidad5').value);
+      var cantidad5 = parseInt(document.getElementById('cantidad6').value);
+
 
       var precio1 = cantidad1 * 10000;
       var precio2 = cantidad2 * 12000;
       var precio3 = cantidad3 * 12000;
       var precio4 = cantidad4 * 2500;
       var precio5 = cantidad5 * 2500;
+      var precio6 = cantidad6 * 100;
 
-      var total = precio1 + precio2 + precio3 + precio4 + precio5;
+
+      var total = precio1 + precio2 + precio3 + precio4 + precio5 + precio6;
 
      // copiar alias
 
